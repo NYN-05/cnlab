@@ -4,10 +4,10 @@
 set ns [new Simulator]
 $ns color 1 Red
 $ns color 2 Blue
-set na [open Lab3.nam w]
-$ns namtrace-all $na
-set nt [open Lab3.tr w]
-$ns trace-all $nt
+set namfile [open Lab3.nam w]
+$ns namtrace-all $namfile
+set ntrace [open Lab3.tr w]
+$ns trace-all $ntrace
 
 set ng1 [open tcp1.xg w]
 set ng2 [open tcp2.xg w]
@@ -40,28 +40,28 @@ $ns attach-agent $n5 $sink2
 $ns connect $tcp1 $sink1
 $ns connect $tcp2 $sink2
 
-proc End {} {
-global ns na nt
-$ns flush-trace
-close $na
-close $nt
-exec nam Lab3.nam &
-exec xgraph tcp1.xg tcp2.xg &
-exit 0
+proc Finish {} {
+    global ns namfile ntrace
+    $ns flush-trace
+    close $na
+    close $nt
+    exec nam Lab3.nam &
+    exec xgraph tcp1.xg tcp2.xg &
+    exit 0
 }
 
 proc Draw {Agent File} {
-global ns
-set Cong [$Agent set cwnd_]
-set Cong [$Agent set cwnd_]
-set Time [$ns now]
-puts $File "$Time $Cong"
-$ns at [expr $Time+0.01] "Draw $Agent $File"
+    global ns
+    set Cong [$Agent set cwnd_]
+    set Cong [$Agent set cwnd_]
+    set Time [$ns now]
+    puts $File "$Time $Cong"
+    $ns at [expr $Time+0.01] "Draw $Agent $File"
 }
 
 $ns at 0.0 "$cbr1 start"
 $ns at 0.7 "$cbr2 start"
 $ns at 0.0 "Draw $tcp1 $ng1"
 $ns at 0.0 "Draw $tcp2 $ng2"
-$ns at 10.0 "End"
+$ns at 10.0 "Finish"
 $ns run

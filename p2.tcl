@@ -31,8 +31,7 @@ $ns duplex-link $n($j) $n([expr ($j+1)]) 0.1Mb 10ms DropTail
 
 Agent/Ping instproc recv {from rtt} {
 $self instvar node_
-puts "node [$node_ id] received ping answer from $from with round trip time $rtt
-ms"
+puts "node [$node_ id] received ping answer from $from with round trip time $rtt ms"
 }
 
 set p0 [new Agent/Ping]
@@ -41,9 +40,10 @@ $ns attach-agent $n(0) $p0
 
 set p1 [new Agent/Ping]
 $p1 set class_ 1
-
 $ns attach-agent $n(5) $p1
+
 $ns connect $p0 $p1
+
 $ns queue-limit $n(2) $n(3) 2
 $ns duplex-link-op $n(2) $n(3) queuePos 0.5
 
@@ -53,6 +53,7 @@ $ns attach-agent $n(2) $tcp0
 
 set sink0 [new Agent/TCPSink]
 $ns attach-agent $n(4) $sink0
+
 $ns connect $tcp0 $sink0
 
 set cbr0 [new Application/Traffic/CBR]
