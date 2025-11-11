@@ -37,11 +37,13 @@ $ns queue-limit $n1 $n2 10
 
 set tcp0 [new Agent/TCP]
 $ns attach-agent $n0 $tcp0
+
 set sink0 [new Agent/TCPSink]
 $ns attach-agent $n2 $sink0
-$ns connect $tcp0 $sink0
-set cbr0 [new Application/Traffic/CBR]
 
+$ns connect $tcp0 $sink0
+
+set cbr0 [new Application/Traffic/CBR]
 $cbr0 set type_ CBR
 $cbr0 set packetSize_ 100
 $cbr0 set rate_ 1Mb
